@@ -7,8 +7,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.opencsv.bean.CsvCustomBindByName;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.tag.Tag;
+import seedu.address.storage.CsvConverters;
 
 /**
  * Represents a Person in the address book.
@@ -17,13 +19,32 @@ import seedu.address.model.tag.Tag;
 public class Person {
 
     // Identity fields
+    @CsvCustomBindByName(converter = CsvConverters.NameConverter.class, column = "name")
     private final Name name;
+
+    @CsvCustomBindByName(converter = CsvConverters.PhoneConverter.class, column = "phone")
     private final Phone phone;
+
+    @CsvCustomBindByName(converter = CsvConverters.EmailConverter.class, column = "email")
     private final Email email;
 
     // Data fields
+    @CsvCustomBindByName(converter = CsvConverters.AddressConverter.class, column = "address")
     private final Address address;
+
+    @CsvCustomBindByName(converter = CsvConverters.TagsConverter.class, column = "tags")
     private final Set<Tag> tags = new HashSet<>();
+
+    /**
+     * Every field must be present and not null.
+     */
+    public Person() {
+        // Empty constructor for opencsv to instantiate
+        this.name = new Name("Default Name");
+        this.phone = new Phone("12345678");
+        this.email = new Email("default@example.com");
+        this.address = new Address("Default Address");
+    }
 
     /**
      * Every field must be present and not null.

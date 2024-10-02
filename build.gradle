@@ -63,6 +63,8 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitVersion
 
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitVersion
+
+    implementation group: 'com.opencsv', name: 'opencsv', version: '4.1'
 }
 
 shadowJar {

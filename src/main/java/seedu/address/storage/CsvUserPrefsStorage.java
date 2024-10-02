@@ -19,6 +19,11 @@ public class CsvUserPrefsStorage implements UserPrefsStorage {
 
     private Path filePath;
 
+    /**
+     * Constructs a {@code CsvUserPrefsStorage} with the given file path.
+     *
+     * @param filePath The file path of the user prefs data file.
+     */
     public CsvUserPrefsStorage(Path filePath) {
         this.filePath = filePath;
     }

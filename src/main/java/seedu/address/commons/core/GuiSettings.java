@@ -80,6 +80,9 @@ public class GuiSettings implements Serializable {
                 .toString();
     }
 
+    /**
+     * Returns a CSV string representation of the {@code GuiSettings}.
+     */
     public String toCsvString() {
         if (windowCoordinates == null) {
             return windowWidth + "," + windowHeight + "," + 0 + "," + 0;

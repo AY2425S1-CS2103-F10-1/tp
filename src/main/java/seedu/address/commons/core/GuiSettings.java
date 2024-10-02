@@ -79,4 +79,12 @@ public class GuiSettings implements Serializable {
                 .add("windowCoordinates", windowCoordinates)
                 .toString();
     }
+
+    public String toCsvString() {
+        if (windowCoordinates == null) {
+            return windowWidth + "," + windowHeight + "," + 0 + "," + 0;
+        } else {
+            return windowWidth + "," + windowHeight + "," + windowCoordinates.x + "," + windowCoordinates.y;
+        }
+    }
 }

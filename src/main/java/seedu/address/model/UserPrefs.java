@@ -6,15 +6,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import com.opencsv.bean.CsvCustomBindByName;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.storage.CsvConverters;
 
 /**
  * Represents User's preferences.
  */
 public class UserPrefs implements ReadOnlyUserPrefs {
-
+    @CsvCustomBindByName(converter = CsvConverters.GuiSettingsConverter.class, column = "guiSettings")
     private GuiSettings guiSettings = new GuiSettings();
-    private Path addressBookFilePath = Paths.get("data" , "addressbook.json");
+
+    @CsvCustomBindByName(converter = CsvConverters.PathConverter.class, column = "addressBookFilePath")
+    private Path addressBookFilePath = Paths.get("data" , "addressbook.csv");
 
     /**
      * Creates a {@code UserPrefs} with default values.
@@ -84,5 +88,4 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         sb.append("\nLocal data file location : " + addressBookFilePath);
         return sb.toString();
     }
-
 }

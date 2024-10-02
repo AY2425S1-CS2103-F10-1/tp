@@ -47,7 +47,6 @@ public class CsvUtil {
         try (FileReader reader = new FileReader(filePath.toFile())) {
             List<T> beans = new CsvToBeanBuilder<T>(reader)
                     .withType(clazz)
-                    .withSkipLines(1)
                     .build()
                     .parse();
             return Optional.of(beans);

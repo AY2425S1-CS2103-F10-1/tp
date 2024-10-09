@@ -80,7 +80,6 @@ public class CsvConverters {
     public static class PhoneConverter extends AbstractBeanField<Phone> {
         @Override
         protected Object convert(String value) {
-            System.out.println(value);
             return new Phone(value);
         }
     }

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.enums.CSVReaderNullFieldIndicator;
 import com.opencsv.exceptions.CsvException;
 
 import seedu.address.commons.core.LogsCenter;
@@ -47,10 +48,11 @@ public class CsvUtil {
         try (FileReader reader = new FileReader(filePath.toFile())) {
             List<T> beans = new CsvToBeanBuilder<T>(reader)
                     .withType(clazz)
+                    .withFieldAsNull(CSVReaderNullFieldIndicator.BOTH)
                     .build()
                     .parse();
             return Optional.of(beans);
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             logger.warning("Error reading from CSV file " + filePath + ": " + e);
             throw new DataLoadingException(e);
         }

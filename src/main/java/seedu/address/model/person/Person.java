@@ -20,20 +20,20 @@ import seedu.address.storage.CsvConverters;
 public class Person {
 
     // Identity fields
-    @CsvCustomBindByName(converter = CsvConverters.NameConverter.class, column = "name")
+    @CsvCustomBindByName(converter = CsvConverters.NameConverter.class, column = "name", required = true)
     private final Name name;
 
-    @CsvCustomBindByName(converter = CsvConverters.PhoneConverter.class, column = "phone")
+    @CsvCustomBindByName(converter = CsvConverters.PhoneConverter.class, column = "phone", required = true)
     private final Phone phone;
 
-    @CsvCustomBindByName(converter = CsvConverters.EmailConverter.class, column = "email")
+    @CsvCustomBindByName(converter = CsvConverters.EmailConverter.class, column = "email", required = true)
     private final Email email;
 
     // Data fields
-    @CsvCustomBindByName(converter = CsvConverters.AddressConverter.class, column = "address")
+    @CsvCustomBindByName(converter = CsvConverters.AddressConverter.class, column = "address", required = true)
     private final Address address;
 
-    @CsvCustomBindByName(converter = CsvConverters.TagsConverter.class, column = "tags")
+    @CsvCustomBindByName(converter = CsvConverters.TagsConverter.class, column = "tags", required = true)
     private final Set<Tag> tags = new HashSet<>();
 
     /**

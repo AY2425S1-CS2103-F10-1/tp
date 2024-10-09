@@ -1,5 +1,9 @@
 package seedu.address.commons.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,10 +16,6 @@ import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.person.Person;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 /**
@@ -72,7 +72,6 @@ public class CsvUtilTest {
 
         assertThrows(DataLoadingException.class, () -> CsvUtil.readCsvFile(filePath, Person.class));
     }
-
 
     @Test
     public void readCsvFile_missingField_exceptionThrown() throws IOException {

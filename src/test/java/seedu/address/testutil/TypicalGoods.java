@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import seedu.address.model.ReadOnlyReceiptLog;
+import seedu.address.model.ReceiptLog;
 import seedu.address.model.goods.Goods;
 import seedu.address.model.goods.GoodsCategories;
 import seedu.address.model.goods.GoodsName;
@@ -63,8 +65,11 @@ public class TypicalGoods {
     }
 
 
-    public static List<GoodsReceipt> getTypicalGoodsReceipts() {
-        return new ArrayList<>(Arrays.asList(
+    public static ReadOnlyReceiptLog getTypicalGoodsReceipts() {
+
+        ReceiptLog r = new ReceiptLog();
+
+        List<GoodsReceipt> g = new ArrayList<>(Arrays.asList(
             new GoodsReceiptBuilder().withGoods(new GoodsName("Apple")).build(),
             new GoodsReceiptBuilder().withGoods(new GoodsName("Banana")).build(),
             new GoodsReceiptBuilder().withGoods(new GoodsName("Carrot")).build(),
@@ -76,5 +81,8 @@ public class TypicalGoods {
             new GoodsReceiptBuilder().withGoods(new GoodsName("Icecream")).build(),
             new GoodsReceiptBuilder().withGoods(new GoodsName("Jam")).build()
         ));
+
+        r.setReceipts(g);
+        return r;
     }
 }

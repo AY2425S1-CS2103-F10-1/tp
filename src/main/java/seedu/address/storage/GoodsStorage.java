@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyReceiptLog;
 import seedu.address.model.goodsReceipt.GoodsReceipt;
 
 
@@ -26,12 +27,12 @@ public interface GoodsStorage {
      *
      * @throws DataLoadingException if loading the data from storage failed.
      */
-    Optional<List<GoodsReceipt>> readGoods() throws DataLoadingException;
+    Optional<ReadOnlyReceiptLog> readGoods() throws DataLoadingException;
 
     /**
      * @see #getGoodsFilePath()
      */
-    Optional<List<GoodsReceipt>> readGoods(Path filePath) throws DataLoadingException;
+    Optional<ReadOnlyReceiptLog> readGoods(Path filePath) throws DataLoadingException;
 
     /**
      * TODO: Add ReadOnly Feature to the parameter
@@ -39,11 +40,11 @@ public interface GoodsStorage {
      * @param goods cannot be null.
      * @throws IOException if there was any problem writing to the file.
      */
-    void saveGoods(List<GoodsReceipt> goods) throws IOException;
+    void saveGoods(ReadOnlyReceiptLog goods) throws IOException;
 
     /**
      * TODO: Add ReadOnly Feature to the parameter
      * @see #saveGoods(List)
      */
-    void saveGoods(List<GoodsReceipt> goods, Path filePath) throws IOException;
+    void saveGoods(ReadOnlyReceiptLog goods, Path filePath) throws IOException;
 }

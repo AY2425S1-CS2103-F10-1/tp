@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -26,14 +25,14 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
-    private List<GoodsReceipt> goodsList; // TODO: Add ReadOnly Feature to Goods
+    private ReceiptLog goodsList; // TODO: Add ReadOnly Feature to Goods
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
     public ModelManager(ReadOnlyAddressBook addressBook,
                         ReadOnlyUserPrefs userPrefs,
-                        List<GoodsReceipt> goodsList) {
+                        ReadOnlyReceiptLog goodsList) {
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
@@ -41,11 +40,11 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        this.goodsList = goodsList;
+        this.goodsList = new ReceiptLog(goodsList);
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs(), new ArrayList<>());
+        this(new AddressBook(), new UserPrefs(), new ReceiptLog());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -166,23 +165,23 @@ public class ModelManager implements Model {
     //=========== Goods ================================================================================
 
     @Override
-    public void setGoods(List<GoodsReceipt> goodsReceipts) {
+    public void setGoods(ReadOnlyReceiptLog goodsReceipts) {
         requireNonNull(goodsReceipts);
-        this.goodsList = goodsReceipts;
+        this.goodsList.resetData(goodsReceipts);
     }
 
     @Override
-    public List<GoodsReceipt> getGoods() {
+    public ReadOnlyReceiptLog getGoods() {
         return goodsList;
     }
 
     @Override
     public void addGoods(GoodsReceipt goodsReceipt) {
-        goodsList.add(goodsReceipt);
+        goodsList.addReceipt(goodsReceipt);
     }
 
     @Override
     public List<GoodsReceipt> getFilteredGoods(Predicate<GoodsReceipt> predicate) {
-        return this.goodsList.stream().filter(predicate).toList();
+        return this.goodsList.findReceipts(predicate);
     }
 }

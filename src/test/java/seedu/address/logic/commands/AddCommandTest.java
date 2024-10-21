@@ -23,7 +23,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyReceiptLog;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.ReceiptLog;
 import seedu.address.model.goodsReceipt.GoodsReceipt;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
@@ -172,13 +174,13 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setGoods(List<GoodsReceipt> goodsReceiptList) {
+        public void setGoods(ReadOnlyReceiptLog goodsReceipts) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public List<GoodsReceipt> getGoods() {
-            return List.of();
+        public ReadOnlyReceiptLog getGoods() {
+            return new ReceiptLog();
         }
 
         @Override

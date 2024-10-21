@@ -145,4 +145,24 @@ public class GoodsReceipt {
         return String.format("[Quantity %d] %s (%s)", this.quantity, this.goods.toString(), deliveryStatus);
     }
 
+
+    /**
+     * Checks if receipt is the same (Logic may be different from hashcode)
+     * E.g. delivered variable is not checked here
+     */
+    public boolean isSameReceipt(GoodsReceipt otherReceipt) {
+        if (otherReceipt == this) {
+            return true;
+        }
+
+        return this.goods.equals(otherReceipt.goods)
+                &&
+                this.arrivalDate.equals(otherReceipt.arrivalDate)
+                &&
+                this.procurementDate.equals(otherReceipt.procurementDate)
+                &&
+                this.quantity == otherReceipt.quantity
+                &&
+                this.price == otherReceipt.price;
+    }
 }

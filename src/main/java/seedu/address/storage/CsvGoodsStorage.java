@@ -4,7 +4,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -12,6 +11,8 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.commons.util.CsvUtil;
 import seedu.address.commons.util.FileUtil;
+import seedu.address.model.ReadOnlyReceiptLog;
+import seedu.address.model.ReceiptLog;
 import seedu.address.model.goodsReceipt.GoodsReceipt;
 
 /**
@@ -33,27 +34,30 @@ public class CsvGoodsStorage implements GoodsStorage {
     }
 
     @Override
-    public Optional<List<GoodsReceipt>> readGoods() throws DataLoadingException {
+    public Optional<ReadOnlyReceiptLog> readGoods() throws DataLoadingException {
         return readGoods(filePath);
     }
 
     @Override
-    public Optional<List<GoodsReceipt>> readGoods(Path filePath) throws DataLoadingException {
+    public Optional<ReadOnlyReceiptLog> readGoods(Path filePath) throws DataLoadingException {
         requireNonNull(filePath);
-        return CsvUtil.readCsvFile(filePath, GoodsReceipt.class);
+
+        ReceiptLog r = new ReceiptLog();
+        r.setReceipts(CsvUtil.readCsvFile(filePath, GoodsReceipt.class).get());
+        return Optional.of(r);
     }
 
     @Override
-    public void saveGoods(List<GoodsReceipt> goods) throws IOException {
+    public void saveGoods(ReadOnlyReceiptLog goods) throws IOException {
         saveGoods(goods, filePath);
     }
 
     @Override
-    public void saveGoods(List<GoodsReceipt> goods, Path filePath) throws IOException {
+    public void saveGoods(ReadOnlyReceiptLog goods, Path filePath) throws IOException {
         requireNonNull(goods);
         requireNonNull(filePath);
 
         FileUtil.createIfMissing(filePath);
-        CsvUtil.writeCsvFile(filePath, goods);
+        CsvUtil.writeCsvFile(filePath, goods.getReceiptList());
     }
 }

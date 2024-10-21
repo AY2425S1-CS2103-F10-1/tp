@@ -2,16 +2,15 @@ package seedu.address.storage;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyReceiptLog;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.goodsReceipt.GoodsReceipt;
 
 /**
  * Manages storage of AddressBook data in local storage.
@@ -88,22 +87,22 @@ public class StorageManager implements Storage {
     }
 
     @Override
-    public Optional<List<GoodsReceipt>> readGoods() throws DataLoadingException {
+    public Optional<ReadOnlyReceiptLog> readGoods() throws DataLoadingException {
         return readGoods(goodsStorage.getGoodsFilePath());
     }
 
     @Override
-    public Optional<List<GoodsReceipt>> readGoods(Path filePath) throws DataLoadingException {
+    public Optional<ReadOnlyReceiptLog> readGoods(Path filePath) throws DataLoadingException {
         return goodsStorage.readGoods(filePath);
     }
 
     @Override
-    public void saveGoods(List<GoodsReceipt> goods) throws IOException {
+    public void saveGoods(ReadOnlyReceiptLog goods) throws IOException {
         saveGoods(goods, goodsStorage.getGoodsFilePath());
     }
 
     @Override
-    public void saveGoods(List<GoodsReceipt> goods, Path filePath) throws IOException {
+    public void saveGoods(ReadOnlyReceiptLog goods, Path filePath) throws IOException {
         goodsStorage.saveGoods(goods, filePath);
     }
 }

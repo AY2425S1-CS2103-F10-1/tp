@@ -190,7 +190,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void deleteGoods(GoodsName goodsName) {
+        public boolean deleteGoods(GoodsName goodsName) {
             throw new AssertionError("This method should not be called.");
         }
 

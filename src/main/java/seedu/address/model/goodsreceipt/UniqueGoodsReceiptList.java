@@ -159,8 +159,8 @@ public class UniqueGoodsReceiptList implements Iterable<GoodsReceipt> {
         return true;
     }
 
-    public void removeIf(Predicate<? super GoodsReceipt> predicate) {
-        internalList.removeIf(predicate);
+    public boolean removeIf(Predicate<? super GoodsReceipt> predicate) {
+        return internalList.removeIf(predicate);
     }
 
     public int size() {

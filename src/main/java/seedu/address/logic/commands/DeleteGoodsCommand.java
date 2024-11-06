@@ -1,8 +1,13 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.Messages.MESSAGE_GOODS_NOT_FOUND;
+import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GOODS_NAME;
 
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.goods.GoodsName;
 
@@ -27,9 +32,14 @@ public class DeleteGoodsCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.deleteGoods(goodsName);
+        boolean deleted = model.deleteGoods(goodsName);
+
+        // Show error message if no goodsName prefix
+        if (!deleted) {
+            throw new CommandException(MESSAGE_GOODS_NOT_FOUND);
+        }
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, goodsName));
     }

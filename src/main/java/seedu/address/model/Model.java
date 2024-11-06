@@ -120,7 +120,7 @@ public interface Model {
      * Deletes all the goods which match the GoodsName given.
      * @param goodsName The GoodsName indicating the goods to be deleted.
      */
-    void deleteGoods(GoodsName goodsName);
+    boolean deleteGoods(GoodsName goodsName);
 
     /** Returns an unmodifiable view of the filtered goodsReceipt list */
     ObservableList<GoodsReceipt> getFilteredReceiptsList();

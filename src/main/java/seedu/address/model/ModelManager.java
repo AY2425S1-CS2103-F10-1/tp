@@ -218,8 +218,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void deleteGoods(GoodsName goodsName) {
-        goodsList.removeIf(receipt -> Objects.equals(receipt.getGoods().getGoodsName(), goodsName));
+    public boolean deleteGoods(GoodsName goodsName) {
+        return goodsList.removeIf(receipt -> Objects.equals(receipt.getGoods().getGoodsName(), goodsName));
     }
 
     @Override

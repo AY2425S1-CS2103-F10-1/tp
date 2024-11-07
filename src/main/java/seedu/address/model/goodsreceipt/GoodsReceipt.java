@@ -115,7 +115,7 @@ public class GoodsReceipt {
      * Returns True if the procurement date is valid.
      */
     public static boolean isValidProcurementDate(Date date) {
-        return date.getDateTime().isBefore(LocalDateTime.now());
+        return !date.getDateTime().isAfter(LocalDateTime.now());
     }
 
     /**

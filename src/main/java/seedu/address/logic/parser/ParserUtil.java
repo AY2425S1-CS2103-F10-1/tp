@@ -3,6 +3,7 @@ package seedu.address.logic.parser;
 import static java.util.Objects.requireNonNull;
 
 import java.time.DateTimeException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +25,9 @@ import seedu.address.model.tag.Tag;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
+    public static final String QUANTITY_MESSAGE_CONSTRAINT = "Quantity must be an non-negative integer.";
+    public static final String PRICE_MESSAGE_CONSTRAINT = "Price must be a non-negative number.";
+    public static final String PROCUREMENT_DATE_MESSAGE_CONSTRAINT = "Procurement date must not be in the future.";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -158,19 +162,69 @@ public class ParserUtil {
 
     /**
      * Parses {@code String dateTime} into a {@code Date}
-     * @param dateTime A string containing the datetime string
+     * @param datetime A string containing the datetime string
      *
      * @throws ParseException if the given {@code dateTime} does not match the format
      */
-    public static Date parseDateTimeValues(String dateTime) throws ParseException {
-        requireNonNull(dateTime);
+    public static Date parseDateTimeValues(String datetime) throws ParseException {
+        requireNonNull(datetime);
         Date date;
         try {
-            date = new Date(dateTime);
+            date = new Date(datetime);
         } catch (DateTimeException e) {
             throw new ParseException(Date.MESSAGE_INVALID_FORMAT);
         }
 
         return date;
+    }
+
+    /**
+     * Parses a string of datetime to a valid procurement date.
+     */
+    public static Date parseProcurementDate(String datetime) throws ParseException {
+        Date d = parseDateTimeValues(datetime);
+        if (d.getDateTime().isAfter(LocalDateTime.now())) {
+            throw new ParseException(PROCUREMENT_DATE_MESSAGE_CONSTRAINT);
+        }
+        return d;
+    }
+
+    /**
+     * Parses a string of datetime to a valid arrival date.
+     */
+    public static Date parseArrivalDate(String datetime) throws ParseException {
+        return parseDateTimeValues(datetime);
+    }
+
+    /**
+     * Parses a string quantity to an int.
+     */
+    public static int parseGoodsQuantity(String quantity) throws ParseException {
+        int v;
+        try {
+            v = Integer.parseInt(quantity);
+        } catch (NumberFormatException e) {
+            throw new ParseException(QUANTITY_MESSAGE_CONSTRAINT);
+        }
+        if (v < 0) {
+            throw new ParseException(QUANTITY_MESSAGE_CONSTRAINT);
+        }
+        return v;
+    }
+
+    /**
+     * Parses a string price to a double.
+     */
+    public static double parseGoodsPrice(String price) throws ParseException {
+        double v;
+        try {
+            v = Double.parseDouble(price);
+        } catch (NumberFormatException e) {
+            throw new ParseException(PRICE_MESSAGE_CONSTRAINT);
+        }
+        if (v < 0) {
+            throw new ParseException(PRICE_MESSAGE_CONSTRAINT);
+        }
+        return v;
     }
 }

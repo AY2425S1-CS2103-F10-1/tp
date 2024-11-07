@@ -10,9 +10,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PROCUREMENT_DATE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_QUANTITY;
 
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.goods.Goods;
 import seedu.address.model.goodsreceipt.GoodsReceipt;
 
 /**
@@ -21,7 +21,7 @@ import seedu.address.model.goodsreceipt.GoodsReceipt;
 public class AddGoodsCommand extends Command {
     public static final String COMMAND_WORD = "addgoods";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds linked goods to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds linked goods to the address book. \n"
             + "Parameters: "
             + PREFIX_GOODS_NAME + "GOODS_NAME "
             + PREFIX_QUANTITY + "QUANTITY "
@@ -41,26 +41,29 @@ public class AddGoodsCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New goods added: %1$s";
 
-    private final Goods toAdd;
-    private final GoodsReceipt linkToGoods;
+    public static final String MESSAGE_DUPLICATE_RECEIPT = "This goods already exists in the address book";
+
+    private final GoodsReceipt goodsReceipt;
 
     /**
-     * Creates an AddGoodsCommand for the goods
+     * Creates an AddGoodsCommand that adds goods.
+     * @param goodsReceipt
      */
-    public AddGoodsCommand(Goods goods, GoodsReceipt goodsReceipt) {
-        requireNonNull(goods);
+    public AddGoodsCommand(GoodsReceipt goodsReceipt) {
         requireNonNull(goodsReceipt);
-        this.toAdd = goods;
-        this.linkToGoods = goodsReceipt;
+        this.goodsReceipt = goodsReceipt;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        requireNonNull(model);
-
-        model.addGoods(linkToGoods);
-
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd.toString()));
+        if (model.findPerson(p -> goodsReceipt.isFromSupplier(p.getName())).isEmpty()) {
+            throw new CommandException(Messages.MESSAGE_PERSON_NOT_FOUND);
+        }
+        if (model.findGoodsReceipt(goodsReceipt::equals).isPresent()) {
+            throw new CommandException(MESSAGE_DUPLICATE_RECEIPT);
+        }
+        model.addGoods(goodsReceipt);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, goodsReceipt.getGoods().toString()));
     }
 
     @Override
@@ -70,19 +73,17 @@ public class AddGoodsCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddGoodsCommand)) {
+        if (!(other instanceof AddGoodsCommand otherAddCommand)) {
             return false;
         }
 
-        AddGoodsCommand otherAddGoodsCommand = (AddGoodsCommand) other;
-        return toAdd.equals(otherAddGoodsCommand.toAdd)
-                && linkToGoods.equals(otherAddGoodsCommand.linkToGoods);
+        return goodsReceipt.equals(otherAddCommand.goodsReceipt);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .add("toAdd", toAdd)
+                .add("goodsReceipt", goodsReceipt)
                 .toString();
     }
 }

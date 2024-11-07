@@ -43,23 +43,21 @@ public class AddGoodsCommandParser implements Parser<AddGoodsCommand> {
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_GOODS_NAME, PREFIX_QUANTITY, PREFIX_PRICE,
                 PREFIX_CATEGORY, PREFIX_PROCUREMENT_DATE, PREFIX_ARRIVAL_DATE, PREFIX_NAME);
-        // TODO: ADD NEW ERROR FOR INVALID SUPPLIER NAMES
         Name supplierName = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        // TODO: ENSURE CHECKS FOR SAFETY
         GoodsName goodsName = ParserUtil.parseGoodsName(argMultimap.getValue(PREFIX_GOODS_NAME).get());
-        int quantity = Integer.valueOf(argMultimap.getValue(PREFIX_QUANTITY).get());
-        double price = Double.valueOf(argMultimap.getValue(PREFIX_PRICE).get());
+        int quantity = ParserUtil.parseGoodsQuantity(argMultimap.getValue(PREFIX_QUANTITY).get());
+        double price = ParserUtil.parseGoodsPrice(argMultimap.getValue(PREFIX_PRICE).get());
         GoodsCategories category = ParserUtil.parseGoodsCategory(argMultimap.getValue(PREFIX_CATEGORY).get());
-        Date procurementDate = ParserUtil.parseDateTimeValues(argMultimap.getValue(PREFIX_PROCUREMENT_DATE).get());
-        Date arrivalDate = ParserUtil.parseDateTimeValues(argMultimap.getValue(PREFIX_ARRIVAL_DATE).get());
+        Date procurementDate = ParserUtil.parseProcurementDate(argMultimap.getValue(PREFIX_PROCUREMENT_DATE).get());
+        Date arrivalDate = ParserUtil.parseArrivalDate(argMultimap.getValue(PREFIX_ARRIVAL_DATE).get());
         Boolean isDelivered = arrivalDate.getDateTime().isBefore(LocalDateTime.now());
 
-        Goods goods = new Goods(goodsName, category); //TODO: If Exists return Else Create NEW
+        Goods goods = new Goods(goodsName, category);
 
         GoodsReceipt goodsReceipt = new GoodsReceipt(goods, supplierName,
                 procurementDate, arrivalDate, isDelivered, quantity, price);
 
-        return new AddGoodsCommand(goods, goodsReceipt);
+        return new AddGoodsCommand(goodsReceipt);
     }
 
     /**

@@ -83,8 +83,8 @@ A person can have any number of tags (including 0)
 </div>
 
 #### Address format 
-**[Block Number]** [Street Name]**#[Unit Level]-[Unit No.]** [Building Name] Singapore [Postal Code]
-> [Block Number] & #[Unit Level]-[Unit No.] **are optional** 
+>**[Block Number]** [Street Name]**#[Unit Level]-[Unit No.]** [Building Name] Singapore [Postal Code]
+>>[Block Number] & #[Unit Level]-[Unit No.] **are optional** 
 
 Examples:
 * `add n/John Doe p/98765432 a/125 Orchard Road #12-34 ABC Building Singapore 123456, block 123, #01-01`
